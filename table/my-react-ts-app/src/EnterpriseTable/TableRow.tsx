@@ -8,6 +8,8 @@ interface TableRowProps<T extends Record<string, any>> {
 
   columns: TableColumn<T>[];
 
+  hasColumnVisibility: boolean;
+
   selected: boolean;
 
   selectionMode: "none" | "single" | "multiple";
@@ -33,6 +35,7 @@ function TableRow<T extends Record<string, any>>({
   row,
   index,
   columns,
+  hasColumnVisibility,
   selected,
   selectionMode,
   actionsColumn,
@@ -60,6 +63,10 @@ function TableRow<T extends Record<string, any>>({
         .join(" ")}
       onClick={() => !disabled && onRowClick?.(row, index)}
     >
+      {hasColumnVisibility && (
+        <td className={styles.columnVisibilityColumn} aria-hidden="true" />
+      )}
+
       {selectionMode !== "none" && (
         <td
           className={styles.selectionColumn}

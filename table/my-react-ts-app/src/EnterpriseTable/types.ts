@@ -51,6 +51,13 @@ export interface TableColumn<T> {
   headerClassName?: string;
 }
 
+export interface ColumnVisibilityItem {
+  key: string;
+  label: string;
+  checked: boolean;
+  disabled?: boolean;
+}
+
 export interface EnterpriseTableProps<T extends Record<string, any>> {
   data: T[];
 
@@ -120,6 +127,14 @@ export interface EnterpriseTableProps<T extends Record<string, any>> {
    * Allow users to hide/show columns.
    */
   columnVisibilityControl?: boolean;
+
+  /**
+   * Render a column visibility menu in the leftmost table header.
+   */
+  columnVisibility?: {
+    items: ColumnVisibilityItem[];
+    onToggle: (key: string) => void;
+  };
 
   /**
    * Custom table toolbar.

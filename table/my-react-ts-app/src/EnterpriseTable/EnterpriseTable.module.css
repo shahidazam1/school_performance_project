@@ -127,6 +127,61 @@
   text-align: center;
 }
 
+th.selectionColumn {
+  background: var(--table-header-color);
+  color: var(--table-header-text-color);
+}
+
+td.selectionColumn {
+  background: var(--table-body-color);
+}
+
+.tableRow:hover td.selectionColumn {
+  background: var(--table-hover-color);
+}
+
+.stripedRow td.selectionColumn {
+  background: #fafafa;
+}
+
+.selectedRow td.selectionColumn {
+  background: #eff6ff;
+}
+
+.columnVisibilityColumn {
+  width: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  padding: 0;
+  text-align: center;
+}
+
+th.columnVisibilityColumn {
+  background: var(--table-header-color);
+}
+
+td.columnVisibilityColumn {
+  background: var(--table-body-color);
+}
+
+.stickyHeader .columnVisibilityColumn {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tableRow:hover td.columnVisibilityColumn {
+  background: var(--table-hover-color);
+}
+
+.stripedRow td.columnVisibilityColumn {
+  background: #fafafa;
+}
+
+.selectedRow td.columnVisibilityColumn {
+  background: #eff6ff;
+}
+
 .actionColumn {
   width: 100px;
   min-width: 100px;
@@ -421,6 +476,26 @@
 
 .columnMenuWrapper {
   position: relative;
+}
+
+.headerColumnMenuTrigger {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #344054;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.headerColumnMenuTrigger:hover {
+  background: #f2f4f7;
 }
 
 .columnMenu {

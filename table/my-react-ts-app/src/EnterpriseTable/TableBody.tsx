@@ -6,6 +6,8 @@ interface TableBodyProps<T extends Record<string, any>> {
 
   columns: TableColumn<T>[];
 
+  hasColumnVisibility: boolean;
+
   rowKey: (row: T) => string | number;
 
   selectionMode: "none" | "single" | "multiple";
@@ -32,6 +34,7 @@ interface TableBodyProps<T extends Record<string, any>> {
 function TableBody<T extends Record<string, any>>({
   data,
   columns,
+  hasColumnVisibility,
   rowKey,
   selectionMode,
   selectedKeys,
@@ -52,6 +55,7 @@ function TableBody<T extends Record<string, any>>({
           row={row}
           index={index}
           columns={columns}
+          hasColumnVisibility={hasColumnVisibility}
           selected={selectedKeys.includes(rowKey(row))}
           selectionMode={selectionMode}
           actionsColumn={actionsColumn}

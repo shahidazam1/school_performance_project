@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
-import type { TableColumn } from "./types";
+import type { ColumnVisibilityItem, TableColumn } from "./types";
+import ColumnVisibilityMenu from "./ColumnVisibilityMenu";
 
 import styles from "./EnterpriseTable.module.css";
 
@@ -26,6 +27,11 @@ interface TableHeaderProps<T extends Record<string, any>> {
   onColumnResize: (key: string, width: number) => void;
 
   onColumnReorder: (sourceKey: string, targetKey: string) => void;
+
+  columnVisibility?: {
+    items: ColumnVisibilityItem[];
+    onToggle: (key: string) => void;
+  };
 }
 
 function TableHeader<T extends Record<string, any>>({
@@ -41,6 +47,7 @@ function TableHeader<T extends Record<string, any>>({
   resizableColumns,
   onColumnResize,
   onColumnReorder,
+  columnVisibility,
 }: TableHeaderProps<T>) {
   const [draggedKey, setDraggedKey] = useState<string | null>(null);
   const [dropTargetKey, setDropTargetKey] = useState<string | null>(null);
@@ -48,6 +55,16 @@ function TableHeader<T extends Record<string, any>>({
   return (
     <thead className={stickyHeader ? styles.stickyHeader : undefined}>
       <tr>
+        {columnVisibility && (
+          <th className={styles.columnVisibilityColumn}>
+            <ColumnVisibilityMenu
+              header
+              items={columnVisibility.items}
+              onToggle={columnVisibility.onToggle}
+            />
+          </th>
+        )}
+
         {selectionMode !== "none" && (
           <th className={styles.selectionColumn}>
             {selectionMode === "multiple" && (

@@ -169,6 +169,21 @@ const TableComp = () => {
       <EnterpriseTable
         data={users}
         columns={configuredColumns}
+        columnVisibility={{
+          items: columns.map((column) => ({
+            key: column.key,
+            label: column.title,
+            checked: visibleColumnKeys.includes(column.key),
+            disabled: column.hideable === false,
+          })),
+          onToggle: (key) => {
+            setVisibleColumnKeys((current) =>
+              current.includes(key)
+                ? current.filter((visibleKey) => visibleKey !== key)
+                : [...current, key],
+            );
+          },
+        }}
         rowKey="id"
         actionsColumn={actionsColumn}
         stickyActions
@@ -228,21 +243,6 @@ const TableComp = () => {
               count: 3,
               onClick: () => {
                 console.log("Open filters");
-              },
-            }}
-            columns={{
-              items: columns.map((column) => ({
-                key: column.key,
-                label: column.title,
-                checked: visibleColumnKeys.includes(column.key),
-                disabled: column.hideable === false,
-              })),
-              onToggle: (key) => {
-                setVisibleColumnKeys((current) =>
-                  current.includes(key)
-                    ? current.filter((visibleKey) => visibleKey !== key)
-                    : [...current, key],
-                );
               },
             }}
             refresh={{

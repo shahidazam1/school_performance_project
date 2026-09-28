@@ -56,6 +56,7 @@ function EnterpriseTable<T extends Record<string, any>>({
   getRowDisabled,
 
   resizableColumns = true,
+  columnVisibility,
 
   toolbar,
 
@@ -278,12 +279,14 @@ function EnterpriseTable<T extends Record<string, any>>({
               resizableColumns={resizableColumns}
               onColumnResize={handleColumnResize}
               onColumnReorder={handleColumnReorder}
+              columnVisibility={columnVisibility}
             />
 
             {loading ? (
               <TableLoading
                 columnCount={
                   visibleColumns.length +
+                  (columnVisibility ? 1 : 0) +
                   (selectionMode !== "none" ? 1 : 0) +
                   (actionsColumn ? 1 : 0)
                 }
@@ -293,6 +296,7 @@ function EnterpriseTable<T extends Record<string, any>>({
               <TableEmptyState
                 colSpan={
                   visibleColumns.length +
+                  (columnVisibility ? 1 : 0) +
                   (selectionMode !== "none" ? 1 : 0) +
                   (actionsColumn ? 1 : 0)
                 }
@@ -303,6 +307,7 @@ function EnterpriseTable<T extends Record<string, any>>({
               <TableBody
                 data={data}
                 columns={visibleColumns}
+                hasColumnVisibility={Boolean(columnVisibility)}
                 rowKey={getRowId}
                 selectionMode={selectionMode}
                 selectedKeys={selectedKeys}

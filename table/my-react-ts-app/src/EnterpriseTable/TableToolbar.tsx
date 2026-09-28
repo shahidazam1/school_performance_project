@@ -1,5 +1,7 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import styles from "./EnterpriseTable.module.css";
+import ColumnVisibilityMenu from "./ColumnVisibilityMenu";
+import type { ColumnVisibilityItem } from "./types";
 
 export interface TableToolbarProps {
   /**
@@ -37,12 +39,7 @@ export interface TableToolbarProps {
   columns?: {
     label?: string;
     onClick?: () => void;
-    items?: Array<{
-      key: string;
-      label: string;
-      checked: boolean;
-      disabled?: boolean;
-    }>;
+    items?: ColumnVisibilityItem[];
     onToggle?: (key: string) => void;
   };
 
@@ -78,8 +75,6 @@ export function TableToolbar({
   export: exportConfig,
   className,
 }: TableToolbarProps) {
-  const [columnsOpen, setColumnsOpen] = useState(false);
-
   return (
     <div className={[styles.tableToolbar, className].filter(Boolean).join(" ")}>
       {/* LEFT */}
@@ -125,46 +120,23 @@ export function TableToolbar({
           </button>
         )}
 
-        {columns && (
-          <div className={styles.columnMenuWrapper}>
+        {columns &&
+          (columns.items ? (
+            <ColumnVisibilityMenu
+              items={columns.items}
+              onToggle={(key) => columns.onToggle?.(key)}
+              label={columns.label}
+            />
+          ) : (
             <button
               type="button"
               className={styles.toolbarButton}
-              onClick={() => {
-                if (columns.items) {
-                  setColumnsOpen((open) => !open);
-                } else {
-                  columns.onClick?.();
-                }
-              }}
-              aria-expanded={columns.items ? columnsOpen : undefined}
-              aria-haspopup={columns.items ? "menu" : undefined}
+              onClick={columns.onClick}
             >
               <span aria-hidden="true">☷</span>
               {columns.label ?? "Columns"}
             </button>
-            {columns.items && columnsOpen && (
-              <div
-                className={styles.columnMenu}
-                role="menu"
-                aria-label="Choose visible columns"
-              >
-                <div className={styles.columnMenuTitle}>Show columns</div>
-                {columns.items.map((item) => (
-                  <label key={item.key} className={styles.columnMenuItem}>
-                    <input
-                      type="checkbox"
-                      checked={item.checked}
-                      disabled={item.disabled}
-                      onChange={() => columns.onToggle?.(item.key)}
-                    />
-                    <span>{item.label}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+          ))}
 
         {refresh && (
           <button
